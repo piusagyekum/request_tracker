@@ -1,14 +1,8 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
-function Table({ data }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(10);
-
-  const indexOfLastData = currentPage * dataPerPage;
-  const indexOfFirstData = indexOfLastData - dataPerPage;
-  const currentData = data.slice(indexOfFirstData, indexOfLastData);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+function Test() {
 
   return (
     <div>
@@ -21,24 +15,42 @@ function Table({ data }) {
           </tr>
         </thead>
         <tbody>
-          {currentData.map((data, index) => (
-            <tr key={index}>
-              <td>{data.name}</td>
-              <td>{data.age}</td>
-              <td>{data.address}</td>
-            </tr>
-          ))}
+        <tr className="heading">
+                    <th colSpan="2">
+                        <input type="search"
+                        placeholder="Search for requests or users"
+                       
+                        
+                        />
+                    </th>
+                    <th>
+                        <input type="date"
+                        placeholder="Start date"
+                        />
+
+                        <input type="date"
+                        placeholder="End date"
+                        />
+
+                       
+
+
+                        
+
+
+                    </th>
+        </tr>
         </tbody>
       </table>
       <div>
-        {Array.from({ length: Math.ceil(data.length / dataPerPage) }, (_, i) => (
-          <button key={i} onClick={() => paginate(i + 1)}>
-            {i + 1}
-          </button>
-        ))}
+       
       </div>
+
+
+      <button><FontAwesomeIcon icon={faMagnifyingGlass} color="orange" /></button>
+      <FontAwesomeIcon icon={faMagnifyingGlass} />
     </div>
   );
 }
 
-export default Table;
+export default Test;

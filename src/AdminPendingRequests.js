@@ -5,11 +5,13 @@ import Popup from "./Popup";
 import Pagination from "./Pagination";
 import ProgressBarr from "./ProgressBar";
 import { useReducer } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass} from "@fortawesome/free-solid-svg-icons";
 
 
 
 
-const AdminPendingRequests = ({rank,stat}) => {
+const AdminPendingRequests = ({title,rank,stat,setProfile}) => {
     const roleId=localStorage.getItem("roleId")
     const history = useHistory();
     
@@ -38,9 +40,7 @@ const AdminPendingRequests = ({rank,stat}) => {
 
 
     const[selectedRequest,setSelectedRequest]=useState(null)
-    const numberOfRequests = requests.length;
-
-    {requests&& localStorage.setItem("numberOfRequests",numberOfRequests)}
+    
     
    
 
@@ -50,6 +50,14 @@ const AdminPendingRequests = ({rank,stat}) => {
     const lastPostIndex = currentPage * postsPerPage;
     const firstPostIndex = lastPostIndex - postsPerPage;
     const currentPosts = requests.slice(firstPostIndex,lastPostIndex);
+
+    useEffect(()=>{
+        const numberOfRequests = requests.length;
+
+        requests && localStorage.setItem("numberOfRequests",numberOfRequests)
+        console.log(numberOfRequests)
+
+    },[requests])
    
 
     
@@ -102,7 +110,8 @@ const AdminPendingRequests = ({rank,stat}) => {
        
         api.post(`RejectRequest?id=${id}&reason=${reason}`,null,{
             headers:{"Authorization":`Bearer ${token}`,            
-            "Content-Type":"application/json"},
+                     "Content-Type":"application/json"
+            },
 
             params:{"id":`${id}`, "reason":`${reason}`}
         })
@@ -139,7 +148,7 @@ const AdminPendingRequests = ({rank,stat}) => {
 
     const seeAdmin = (id,{token})=>{
         setIsLoading(true)
-        api.post(`ApproveRequest?id=${id}`,null,{
+        api.post(`SeeAdminRequest?id=${id}`,null,{
             headers:{"Authorization":`Bearer ${token}`},
             params:{"id":`${id}`}
         })
@@ -158,6 +167,8 @@ const AdminPendingRequests = ({rank,stat}) => {
             console.log(err)
         })
     }
+
+
 
     useEffect(()=>{
 
@@ -180,7 +191,7 @@ const AdminPendingRequests = ({rank,stat}) => {
         .then(response=>{
             if(response.data.code!=="0"){
                           
-
+                setRequests("")
                 setRecords(false)
                 setIsPending(false)
                 setError(false)
@@ -212,7 +223,7 @@ const AdminPendingRequests = ({rank,stat}) => {
 
 
     return ( 
-        <div className="AdminPendingRequests" style={{cursor: isLoading?"wait":""}}>
+        <div className="AdminPendingRequests" style={{cursor: isLoading?"wait":""}} onClick={()=>setProfile(false)}>
         
             <table >
             <thead>
@@ -224,8 +235,31 @@ const AdminPendingRequests = ({rank,stat}) => {
                         border:"none",
                         textAlign:"center",
                         color:"white"
-                    }}>PENDING REQUESTS</th>
+                    }}>{title}</th>
                 </tr>
+                {/* <tr className="search-row">
+                    <th colSpan="5" className="search">  
+                        <input type="text"
+                        placeholder="Search for requests or users"
+                        />
+
+                        <input type="date"
+                        placeholder="Start date"
+                        />
+
+                        <input type="date"
+                        placeholder="End date"
+                        />
+                        <button>Search</button>
+
+                         <FontAwesomeIcon icon={faMagnifyingGlass}/> 
+
+
+                    </th>
+                    
+                   
+                </tr> */}
+                
                 <tr className="heading">
                     <th>REQ ID</th>
                     <th>REQUESTER</th>
@@ -234,15 +268,19 @@ const AdminPendingRequests = ({rank,stat}) => {
                     <th>STATUS</th>
                     
                 </tr>
+                 
                 
             </thead>
             <tbody>
         {isPending?<td>loading...</td>:""}  
         {records?"":<td>No records to display</td>}
         {error?<td>Error</td>:""}
-             {requests && currentPosts.map((request)=>(
+
+        {requests && currentPosts.map(request=>(
               <>
-              <tr key={request.requestId} className="tr"  
+              <tr 
+                key={request.requestId} 
+                className="tr"  
                 onClick={() => {
                 setSelectedRequest(request)
                 setFullDetails(true)
@@ -281,6 +319,8 @@ const AdminPendingRequests = ({rank,stat}) => {
                          </td>
 
 
+                       
+
 
                    
 
@@ -293,6 +333,7 @@ const AdminPendingRequests = ({rank,stat}) => {
                 </tr>
 
                 {selectedRequest === request&& fullDetails &&(
+                    
                 <div className="Popup-main">
                     <div className="full">
                         <table>
@@ -323,7 +364,7 @@ const AdminPendingRequests = ({rank,stat}) => {
 
                                 <tr>
                                     <td>Request made on</td>
-                                    <td>{request.dateTime}</td>
+                                    <td>{request.dateTime.substring(0,10)} @ {request.dateTime.substring(11,16)}</td>
                                 </tr>
                                 <tr>
                                     <td>Manager Review by {request.manager}</td>
@@ -337,13 +378,15 @@ const AdminPendingRequests = ({rank,stat}) => {
                                     </tr>:
                                     ""
                                 }
-
+                                {request.mangApprovedDate?
                                 <tr>
                                     <td>Manager Review Date</td>
-                                    <td>{request.mangApprovedDate}</td>
+                                    <td>{request.mangApprovedDate.substring(0,10)} @ {request.mangApprovedDate.substring(11,16)}</td>
                                 </tr>
+                                :""
+                                }
                                 <tr>
-                                    <td>Admin Review by Susana Mensah</td>
+                                    <td>Admin Review</td>
                                     <td>{request.adminReview}</td>
                                 </tr>
                                 {request.adminReview==="Rejected"?
@@ -353,15 +396,30 @@ const AdminPendingRequests = ({rank,stat}) => {
                                     </tr>:
                                     ""                                
                                 }
+                                {request.adminApprovedDate?
                                 <tr>
                                     <td>Admin Review Date</td>
-                                    <td>{request.adminApprovedDate}</td>
+                                    <td>{request.adminApprovedDate.substring(0,10)} @ {request.adminApprovedDate.substring(11,16)}</td>
                                 </tr>
-                                <tr onClick={()=>setFullDetails(false)}>
+                                :""
+                                }
+
+
+                               
+
+
+
+
+
+
+
+                                <tr  onClick={()=>setFullDetails(false)}>
                                 {roleId==="2"?
                                 <td colSpan="2" className="buttons">
                                     <button className="approve" onClick={()=>{setOpenApprove(!openApprove)}}>Approve</button>
-                                    <button className="seeadmin" onClick={()=>{setOpenSeeAdmin(!openSeeAdmin)}}>See Admin</button>
+                                    {request.adminReview==="See Admin"?"":
+                                     <button className="seeadmin" onClick={()=>{setOpenSeeAdmin(!openSeeAdmin)}}>See Admin</button>
+                                    }
                                     <button className="reject" onClick={()=> setOpenReject(!openReject)}>Reject</button>
                                     <button className="close" onClick={()=>{setFullDetails(false)}}>Close</button>
                                 </td>
@@ -387,7 +445,8 @@ const AdminPendingRequests = ({rank,stat}) => {
 
           
                    
-                {openReject?
+              
+            { selectedRequest === request && openReject?
                     
                     <div className="Popup-main">
                         <div className="Popup-sub">
@@ -406,11 +465,10 @@ const AdminPendingRequests = ({rank,stat}) => {
                     </div>
 
                 :""}
-
                    
              
               
-                {openSeeAdmin?
+                {selectedRequest === request&& openSeeAdmin?
                     
                  <Popup info="Are you sure you want to suspend this request" isLoading={isLoading}
                  yes={()=>{seeAdmin(request.requestId,{token})}} cancel={()=>setOpenSeeAdmin(false)}/>
@@ -419,7 +477,7 @@ const AdminPendingRequests = ({rank,stat}) => {
                 :""} 
 
                 
-                {openApprove?
+                {selectedRequest === request && openApprove?
                     
                     <Popup info="Are you sure you want to approve this request" isLoading={isLoading}
                     yes={()=>{approve(request.requestId)}} cancel={()=>setOpenApprove(false)}/>
@@ -427,14 +485,8 @@ const AdminPendingRequests = ({rank,stat}) => {
    
                    :""} 
 
-              
-              
-            </>
-             ))}
-                
- 
-            </tbody>
-                {rejectPopup?
+
+            {rejectPopup?
                 <div className="Popup-main">
                     <div className="Popup-sub">
          
@@ -456,9 +508,17 @@ const AdminPendingRequests = ({rank,stat}) => {
 
                     </div>
                 </div>
-                :
-                ""}
+            : ""}
           
+
+              
+              
+            </>
+             ))}
+                
+ 
+            </tbody>
+                
         </table>
         <Pagination 
         totalPosts={requests.length}

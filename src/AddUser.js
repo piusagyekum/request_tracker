@@ -74,7 +74,7 @@ const AddUser = () => {
                                 </tr><tr>
                                     <td className="left-column">Email</td>
                                     <td className="right-column">
-                                        <input type="text" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+                                        <input type="text" value={email} onChange={(e)=>setEmail(e.target.value.toLowerCase())}/>
                                     </td>
                                     
                                 </tr>

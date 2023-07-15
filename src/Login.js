@@ -16,6 +16,7 @@ const Login = () => {
     const [isLoading,setIsLoading]=useState(false)
     const [error,setError]=useState(false)
     const [errorMessage, setErrorMessage]=useState("")
+    const [accountType,setAccountType]= useState(0);
 
    
 
@@ -34,7 +35,9 @@ const Login = () => {
 
                                     
                                         setInvCred(false);
-                                                    
+                                        
+                                        
+                                        
                                         localStorage.setItem("token", response.data.responseData.token);
                                         localStorage.setItem("id", response.data.responseData.id);
                                         localStorage.setItem("name", response.data.responseData.name);
@@ -97,6 +100,7 @@ const Login = () => {
     return (  
     <div className="Login" style={{cursor: isLoading?"wait":""}}>
 
+     
         
         {adminPopup||manPopup?"":<div className="container">
 
@@ -118,7 +122,7 @@ const Login = () => {
                             required
                             value={email}
                             onChange={(e)=>{
-                                setEmail(e.target.value)
+                                setEmail(e.target.value.toLowerCase())
                                 setInvCred(false)
                                 
 
@@ -158,8 +162,25 @@ const Login = () => {
                                 <h4>Account Select</h4>
                                 <label> Login as:</label>
 
-                                <button onClick={()=>history.push("/PendingRequests")}>User</button>
-                                <button onClick={()=>history.push("/AdminPendingRequests")}>Admin</button>
+                                <button onClick={()=>{
+                                    setAccountType(1)
+                                    console.log(`account type ${accountType}`)
+                                    localStorage.setItem("accountType",accountType)
+                                    
+                                    
+                                    history.push("/PendingRequests")
+                                    
+                                    
+                                }}>User</button>
+
+                                <button onClick={()=>{
+                                    setAccountType(2)
+                                    localStorage.setItem("accountType",accountType)
+                                    console.log(`account type ${accountType}`);
+
+                                    history.push("/AdminPendingRequests")
+                                }}>Admin</button>
+
                                 <button onClick={()=>setAdminPopup(false)}>Cancel</button>
 
                                 

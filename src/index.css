@@ -36,7 +36,8 @@
   border-radius: 3px;
   min-height: 30px;
   border:none;
-  padding: 5px 3px;
+  padding: 0 3px;
+  width: 80px;
   margin:3px;
 }
 
@@ -67,6 +68,56 @@ overflow:hidden;
 
 }
 
+/* header animation */
+@keyframes slideDown{
+  from{
+    transform:translateY(-100px);
+    opacity:0;
+
+  }
+
+  to {
+
+    transform:translateY(0);
+    opacity:1;
+
+  }
+}
+
+@keyframes slideRight{
+  from{
+    transform:translateX(-100px);
+    opacity:0;
+
+  }
+
+  to {
+
+    transform:translateX(0);
+    opacity:1;
+
+  }
+}
+
+@keyframes slideLeft{
+  from{
+    transform:translateX(50px);
+    opacity:0;
+
+  }
+
+  to {
+
+    transform:translateX(0);
+    opacity:1;
+
+  }
+}
+
+.header h2{
+  animation: slideDown 0.5s ease-in-out 0s;
+}
+
  .header .logo{
   width: 45px;
   height:45px;
@@ -74,6 +125,8 @@ overflow:hidden;
   background-size: cover;
   margin-left:5px;
   border-radius: 22px;
+  animation: slideRight 0.3s ease-in-out 0s;
+
 }
 
 .header .user{
@@ -87,6 +140,7 @@ overflow:hidden;
 .header .profileOption:hover{
 cursor: pointer;
 text-shadow: 1px 1px 3px black;
+background-color: var(--secondary);
 }
 
 
@@ -108,6 +162,8 @@ text-shadow: 1px 1px 3px black;
 .navigation li{
   
   line-height: 3rem;
+  animation: slideLeft 0.5s ease-in-out 0s;
+
 
  
 }
@@ -204,8 +260,29 @@ text-shadow: 1px 1px 3px black;
   
 }
 
+/* .navigation */ .change{
+  margin:0px 7px 0px 3px;
+  width:25px;
+  height:25px;
+  background: url("../public/images/changePassword.png");
+  background-size: cover;
+  
+}
+
+/* .navigation */ .logout{
+  margin:0px 7px 0px 3px;
+  width:25px;
+  height:25px;
+  background: url("../public/images/logout.png");
+  background-size: cover;
+  
+}
 
 
+.name{
+  animation: slideLeft 1s ease-in-out 0s;
+
+}
 
 
 
@@ -226,6 +303,8 @@ text-shadow: 1px 1px 3px black;
 {
   margin: 18px 10px 0 185px ;
   max-width:100%;
+  height:85vh;
+  overflow:auto;
     
 }
 
@@ -237,9 +316,11 @@ text-shadow: 1px 1px 3px black;
 .AdminPendingRequests table
 {
   
-  width:100%; 
+  width:100%;
   border-collapse: collapse;
   border-radius: 10px 10px 0 0;
+ 
+  
   
 
 
@@ -325,7 +406,7 @@ text-shadow: 1px 1px 3px black;
 
 
 .Login{
-  background-image:url("../public/images/Flipped.jpg");
+  background-image:url("../public/images/newBackground.jpg");
   min-height:100vh;
   width:100vw;
   background-repeat: no-repeat;
@@ -351,6 +432,8 @@ text-shadow: 1px 1px 3px black;
  
 
 }
+
+
 
 
 
@@ -387,14 +470,16 @@ text-shadow: 1px 1px 3px black;
   color:white;
   
   font-size: large;
+
+  transition: all 0.3s ease-in-out 0s;
   
 }
 
 .Login input[type="submit"]:hover{
   transform:scale(1.05,1.1);
-  transition:0.5s;
   cursor:pointer;
   background-color: var(--primary);
+ 
 }
 
 .Login .errMessage{
@@ -439,13 +524,14 @@ background-color: #F6F1F1 ;
 
 .NewRequest select{
   border: none;
+  width:100%;
   height:30px;
   border-radius: 5px;
 }
 
 .NewRequest textarea{
   resize:vertical;
-  min-width:100%;
+  width:100%;
   outline: none;
   height:306px;
   padding:20px;
@@ -455,6 +541,7 @@ background-color: #F6F1F1 ;
 .GetUsers table{
   overflow:hidden;
 }
+
 .GetUsers .heading th{
   padding:12px 8px;
   text-align: left;
@@ -497,6 +584,7 @@ background-color: #F6F1F1 ;
 
 .AddUser input[type="text"]{
  border:none;
+ padding:0 5px;
  
 }
 
@@ -524,7 +612,7 @@ background-color: #F6F1F1 ;
   align-items: center;
   max-width:100vw;
   min-height:100vh;
-  background-image:url("../public/images/Background.jpg");
+  background-image:url("../public/images/newBackground.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -563,25 +651,42 @@ padding:5px;
 }
 
 
-.ChangePassword input{
+.ChangePassword input,
+.goBack{
   display:block;
   height:30px;
   margin-bottom: 15px;
+  outline:none;
+  border: none;
+ 
 
 }
 
-.ChangePassword input[type="text"]{
-/* border-bottom: 1px solid var(--primary); */
-font-size: 14px;
+.ChangePassword input[type="password"]{
+
+font-size: 20px;
+border-bottom: 1px solid black;
+
 
 
 }
 
-.ChangePassword input[type="submit"]{
+
+
+.ChangePassword input[type="submit"],
+.goBack
+{
   background-color: var(--primary);
   border: none;
   color: white;
   font-weight: 700;
+}
+
+.ChangePassword input[type="submit"]:hover,
+.goBack:hover{
+  cursor: pointer;
+  background-color: var(--secondary);
+
 }
 
 .Login .outerpopup{
@@ -657,6 +762,51 @@ font-size: 14px;
 .AdminPendingRequests td{
 padding:7px 10px;
 }
+
+.AdminPendingRequests .search{
+/* position:relative; */
+/* border-right: 1px solid #9E9E9E; */
+margin:0;
+
+
+}
+
+
+.AdminPendingRequests .search button{
+  /* position:absolute ;
+  right:43%;
+  top:12.5px; */
+  width: 55px;
+  height: 35px;
+  background-color:var(--primary);
+  margin: 0 5px;
+  padding:3px;
+  font-weight:700;
+}
+
+.AdminPendingRequests .search-row input{
+  height:35px;
+  border-radius: 5px;
+  border: 1px solid #9E9E9E;
+  margin: 0 10px;
+  
+
+}
+
+.AdminPendingRequests .search-row th{
+  padding:8px 5px;
+  text-align: left;
+  border-bottom: 1px solid #9E9E9E;
+}
+
+.AdminPendingRequests .search-row input[type="text"]{
+  width:240px;
+  max-width: 240px;
+  padding-left: 7px;
+ 
+}
+
+
 
 .AdminPendingRequests tbody .tr:hover,
 .AdminRequests tbody .tr:hover,
@@ -770,11 +920,12 @@ background-color:var(--secondary);
   background-color: red;
   text-align: center;
   color: white;
-  position:absolute;
-  top:1px;
-  right:1px;
+  /* position:absolute; */
+  /* top:1px; */
+  /* right:1px; */
   padding-bottom:1px;
-  font-size: 8px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .Popup-sub .ok{
@@ -783,7 +934,12 @@ background-color:var(--secondary);
   right:7%;
   display: flex;
   justify-content: space-between;
+  text-align: center;
   width:45px;
+  padding: 4px 7px ;
+ 
+
+  font-weight:900;
  
 }
 
@@ -796,8 +952,8 @@ background-color:var(--secondary);
 }
 
 .Popup-main{
-  min-width:100vw;
-  min-height:100vh;
+  min-width:100%;
+  min-height:100%;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -869,6 +1025,14 @@ background-color:var(--secondary);
 }
 
 
+/* when full details is true use this */
+
+/* .AdminRequests{
+  max-height:80vh;
+  max-width:100vw;
+  overflow:hidden;
+} */
+
 .AdminRequests .heading th{
   text-align: left;
   padding:10px 10px;
@@ -904,9 +1068,8 @@ background-color:var(--secondary);
   margin: 20px 0px;
   cursor: pointer;
   border-radius: 5px;
-  /* verify */
   color:black;
-  /* background-color: #9e9e9e76; */
+
 }
 
 .Pagination button:hover{
@@ -971,9 +1134,35 @@ color:  var(--primary);
 
                                                                                       
 
-                                                                                      .Requests,.NewRequest,.AddUser,.AdminPendingRequests,.AdminRequests,.ChangePassword{
+                                                                                      .Requests,
+                                                                                      .NewRequest,
+                                                                                      .AddUser,
+                                                                                      .AdminPendingRequests,
+                                                                                      .GetUsers,
+                                                                                      .AdminRequests,
+                                                                                      .ChangePassword{
                                                                                         margin-left:10px;
                                                                                       }
+
+                                                                                      .Requests .full,
+                                                                                      .AdminPendingRequests .full,
+                                                                                      .AdminRequests .full{
+                                                                                        max-width:80vw;
+                                                                                        min-height: 300px;
+                                                                                        background-color: rgb(255, 255, 255); 
+                                                                                        border-radius: 7px;
+                                                                                        padding: 10px 30px;
+                                                                                        overflow-x: auto;
+                                                                                        font-size: 13px;
+                                                                                        padding:15px;
+                                                                                      }
+
+                                                                                      .NewRequest td
+{
+  padding:20px 10%;
+  font-weight: 600;
+
+}
                                                                                     }
 
                                                                                     .faars{

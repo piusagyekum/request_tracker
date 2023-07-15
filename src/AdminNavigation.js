@@ -1,18 +1,32 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
-const AdminNavigation = () => {
-    const numberOfRequests=localStorage.getItem("numberOfRequests");
+const AdminNavigation = ({setProfile}) => {
+    
+    const [numberOfRequests,setNumberOfRequests]= useState(null)
 
     useEffect(()=>{
-        
+
+        setNumberOfRequests(localStorage.getItem("numberOfRequests")) 
+
+        const handleStorageChange = (event) => {
+        if (event.key === 'numberOfRequests') {
+              setNumberOfRequests(event.newValue);
+        }
+    }
+
+     window.addEventListener('storage', handleStorageChange);
+
+
         
     },[numberOfRequests])
 
     
+
+    
     return ( 
-    <ul className="navigation">
+    <ul className="navigation" onClick={()=>setProfile(false)}>
     
             <Link to ="/AdminAllRequests">
                 <div className="nav-item" >

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-const  ManNav= () => {
+const  ManNav= ({setProfile}) => {
     return ( 
-        <ul className="navigation">
+        <ul className="navigation" onClick={()=>{setProfile(false)}}>
     
             <Link to ="/ManAllRequests">
                 <div className="nav-item" >

@@ -4,7 +4,7 @@ import api from "./api/api";
 import ProgressBarr from "./ProgressBar";
 import Pagination from "./Pagination";
 
-const AdminRequests = ({title,rank,stat}) => {
+const AdminRequests = ({title,rank,stat,setProfile}) => {
     const token = localStorage.getItem("token")
     const roleId = localStorage.getItem("roleId")
     const [requests,setRequests]=useState("");
@@ -80,7 +80,7 @@ const AdminRequests = ({title,rank,stat}) => {
       
 }},[stat,rank,roleId,token,history])
     return ( 
-        <div className="AdminRequests">
+        <div className="AdminRequests" onClick={()=>{setProfile(false)}}>
             
      
         
@@ -112,10 +112,11 @@ const AdminRequests = ({title,rank,stat}) => {
         {error?<div>Error</div>:""}
 
         {requests&&currentPosts.map(request=>(
+        <>
                 <tr key={request.requestId} className="tr"   
                 onClick={() => {
                     setSelectedRequest(request)
-                    setFullDetails(!fullDetails)
+                    setFullDetails(true)
                 }}
                 >
                     <td>{request.requestId}</td>
@@ -154,7 +155,11 @@ const AdminRequests = ({title,rank,stat}) => {
 
                     </td>
 
-                    {selectedRequest === request&& fullDetails &&(
+                  
+
+                   
+                </tr>
+                {selectedRequest === request&& fullDetails &&(
                 <div className="Popup-main">
                     <div className="full">
                         <table>
@@ -185,7 +190,7 @@ const AdminRequests = ({title,rank,stat}) => {
 
                                 <tr>
                                     <td>Request made on</td>
-                                    <td>{request.dateTime}</td>
+                                    <td>{request.dateTime.substring(0,10)} @ {request.dateTime.substring(11,16)}</td>
                                 </tr>
                                 <tr>
                                     <td>Manager Review by {request.manager}</td>
@@ -198,12 +203,15 @@ const AdminRequests = ({title,rank,stat}) => {
                                     </tr>:
                                     ""
                                 }
+                                {request.mangApprovedDate?
                                 <tr>
                                     <td>Manager Review Date</td>
-                                    <td>{request.mangApprovedDate}</td>
+                                    <td>{request.mangApprovedDate.substring(0,10)} @ {request.mangApprovedDate.substring(11,16)}</td>
                                 </tr>
+                                :""
+                                }
                                 <tr>
-                                    <td>Admin Review by Susana Mensah</td>
+                                    <td>Admin Review</td>
                                     <td>{request.adminReview}</td>
                                 </tr>
                                 {request.adminReview==="Rejected"?
@@ -213,13 +221,16 @@ const AdminRequests = ({title,rank,stat}) => {
                                     </tr>:
                                     ""
                                 }
+                                  {request.adminApprovedDate?
                                 <tr>
                                     <td>Admin Review Date</td>
-                                    <td>{request.adminApprovedDate}</td>
+                                    <td>{request.adminApprovedDate.substring(0,10)} @ {request.adminApprovedDate.substring(11,16)}</td>
                                 </tr>
+                                :""
+                                }
                                 <tr>
                                 <td colSpan="2" style={{textAlign:"right"}}>
-                                       <button className="close" onClick={()=>{setFullDetails(!fullDetails)}}>Close</button>
+                                       <button className="close" onClick={()=>{setFullDetails(false)}}>Close</button>
                                 </td>
                                
                                 </tr>
@@ -230,9 +241,7 @@ const AdminRequests = ({title,rank,stat}) => {
 
                 </div>
                )}
-
-                   
-                </tr>
+                </>
              ))}
  
             </tbody>

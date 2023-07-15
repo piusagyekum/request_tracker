@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useHistory,Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({setProfile,profile}) => {
    const history = useHistory();
 
-   const[profile,setProfile]=useState(false)
+   
 
    const name = localStorage.getItem("name");
 
@@ -31,8 +31,8 @@ const Header = () => {
                
          <h2>Request<span className="white">Tracker</span></h2>
 
-         {/* name and avatar */}
-         <div style={{display:"flex", marginRight:"5px", alignItems:"center"}}>
+         {/* name and avatar container */}
+         <div className="name" style={{display:"flex", marginRight:"5px", alignItems:"center"}}>
            
             <div className="user"><span className="white">Welcome </span>{name}</div>
                       
@@ -41,13 +41,14 @@ const Header = () => {
          </div>
          
          {profile? 
-            <div  style={{
+            <div 
+            style={{
                position:"absolute",right:"10px", top:"50px",backgroundColor:"var(--primary)",
                color:"white" , borderRadius:"5px", padding:"10px", cursor:"pointer", width:"200px",
-               height:"100px", borderBottom:"2px solid white", zIndex:"3"}}>
+               height:"100px", borderBottom:"2px solid white", zIndex:"3"}} onClick={()=>setProfile(false)}>
 
-                  <div  className="profileOption" onClick={logout}  style={{borderBottom:"1px solid white", fontWeight:"bold",marginBottom:"10px"}}>Logout</div>
-                  <Link to="/ChangePassword" style={{textDecoration:"none"}}><div className="profileOption" style={{borderBottom:"1px solid white", fontWeight:"bold", color:"white"}}>Change Password</div></Link>
+                  <div  className="profileOption" onClick={logout}  style={{ fontWeight:"bold",marginBottom:"10px", height:"28px", padding:"4px 4px", borderRadius:"3px"}} >Logout</div>
+                  <Link to="/ChangePassword" style={{textDecoration:"none"}}><div className="profileOption" style={{fontWeight:"bold", color:"white", height:"28px", padding:"4px 4px", borderRadius:"3px"}}>Change Password</div></Link>
 
             </div>
          :""}

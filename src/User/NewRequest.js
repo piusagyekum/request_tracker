@@ -67,7 +67,7 @@ const NewRequest = () => {
                             <tbody>
                             <tr>
                                     <td>
-                                        <select required value={categoryId} onChange={(e)=>setCategory(e.target.value)}>
+                                        <select  required value={categoryId} onChange={(e)=>setCategory(e.target.value)}>
                                             <option disabled selected value="">Category</option>
                                             <option value="1">Repairs</option>
                                             <option value="2">Transportation Reimbursement</option>
@@ -87,7 +87,7 @@ const NewRequest = () => {
                                         <button  onClick={()=>{
                                             setDescription("");
                                             setCategory("")
-                                        }}>Reset</button>                                                                       
+                                    }}>Reset</button>                                                                       
                                         <input style={{cursor: isLoading?"wait":""}} type= "submit" />
                                     </td>
                                 </tr>

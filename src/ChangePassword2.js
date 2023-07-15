@@ -3,8 +3,9 @@ import api from "./api/api";
 import { useHistory } from "react-router-dom";
 import { useEffect } from "react";
 
-const ChangePassword = ({setProfile}) => {
-    const token = localStorage.getItem("token")
+const ChangePassword2 = ({setProfile}) => {
+
+const token = localStorage.getItem("token")
     const email = localStorage.getItem("email");
 
     const history = useHistory();
@@ -100,7 +101,6 @@ const ChangePassword = ({setProfile}) => {
             }}/>
 
             <input type="submit" value="SUBMIT"/>
-            <button  className="goBack" onClick={()=>history.goBack()}>BACK</button>
 
         </form>
     </div>
@@ -108,7 +108,4 @@ const ChangePassword = ({setProfile}) => {
 
      );
 }
- 
-export default ChangePassword;
-
-
+export default ChangePassword2;
